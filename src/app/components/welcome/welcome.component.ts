@@ -71,9 +71,9 @@ export class WelcomeComponent implements AfterViewInit, OnDestroy {
 
   // EmailJS Configuration
   private readonly EMAILJS_CONFIG = {
-    SERVICE_ID: 'service_c5qriij', // Reemplazar con tu Service ID
-    TEMPLATE_ID: 'template_cwb0n2f', // Reemplazar con tu Template ID
-    PUBLIC_KEY: 'FcMtfRv78IoUaa2Bb', // Reemplazar con tu Public Key
+    SERVICE_ID: 'service_jvavvlm', // Reemplazar con tu Service ID
+    TEMPLATE_ID: 'template_zyk6xfb', // Reemplazar con tu Template ID
+    PUBLIC_KEY: '-gzShDr5C1jQhfWlZ', // Reemplazar con tu Public Key
   };
 
 
@@ -100,10 +100,10 @@ export class WelcomeComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
+      this.initEmailJS();
       this.initScene();
       this.loadModel();
       this.animate();
-      this.initEmailJS();
 
       window.addEventListener('resize', this.onResize.bind(this));
       window.addEventListener('mousemove', this.onMouseMove.bind(this));
@@ -267,16 +267,13 @@ export class WelcomeComponent implements AfterViewInit, OnDestroy {
     this.isSubmitting = true;
 
     try {
-      // Preparar los datos del template - MAPEO CORRECTO para tu template
-      const templateParams = {
+      let templateParams = {
         // Variables que usa tu template personalizado
         nombre: this.demoRequest.nombre,
         empresa: this.demoRequest.empresa,
         email: this.demoRequest.email,
         telefono: this.demoRequest.telefono || 'No proporcionado',
-        tipo_negocio: this.getFormattedBusinessType(
-          this.demoRequest.tipoNegocio
-        ),
+        tipo_negocio: this.demoRequest.tipoNegocio,
         mensaje:
           this.demoRequest.mensaje || 'Sin mensaje adicional proporcionado.',
         fecha: new Date().toLocaleDateString('es-ES', {
@@ -293,6 +290,8 @@ export class WelcomeComponent implements AfterViewInit, OnDestroy {
 
       console.log('Enviando datos a EmailJS:', templateParams);
       console.log('Usando Template ID:', this.EMAILJS_CONFIG.TEMPLATE_ID);
+
+
 
       // Enviar email usando EmailJS
       const response = await emailjs.send(
